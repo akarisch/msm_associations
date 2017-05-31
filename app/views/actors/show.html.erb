@@ -17,18 +17,66 @@
       <dt>Image url</dt>
       <dd><%= @actor.image_url %></dd>
 
-    </dl>
+      <dt>Number of Characters</dt>
+      <dd><%= Character.where(actor_id: @actor.id).count %>
 
-    <div class="btn-group btn-group-justified">
-      <a href="/actors" class="btn btn-primary">
-        Back
-      </a>
-      <a href="/actors/<%= @actor.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_actor/<%= @actor.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+
+
+      </dl>
+
+      <div class="btn-group btn-group-justified">
+        <a href="/actors" class="btn btn-primary">
+          Back
+        </a>
+        <a href="/actors/<%= @actor.id %>/edit" class="btn btn-warning">
+          Edit
+        </a>
+        <a href="/delete_actor/<%= @actor.id %>" class="btn btn-danger" rel="nofollow">
+          Delete
+        </a>
+      </div>
     </div>
+  </div>
+
+  <ul>
+    <% @actor.characters.each do |character| %>
+    <li> <%= character.actor.name %>
+  (<%= character.name %>)
+    </li>
+      <% end %>
+  </ul>
+
+  <div class="page-header">
+    <h3>Add Character</h3>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form action="/create_character" method="post">
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+        <div class="form-group">
+          <label for="movie_id" class="control-label">
+            Movie
+          </label>
+
+          <%= select_tag(:movie_id, options_from_collection_for_select(Movie.all, :id, :title, @actor.id), :class => "form-control") %>
+  </div>
+        <div class="form-group">
+          <label for="name" class="control-label">
+            Character
+          </label>
+
+          <input type="text" id="name" name="name" placeholder="Name" class="form-control">
+        </div>
+
+      <input type="hidden" name="actor_id" value="<%= @actor.id %>">
+
+      <button class="btn btn-success">
+        Create Character
+      </button>
+      or
+      <a href="/characters">Cancel</a>
+    </form>
   </div>
 </div>

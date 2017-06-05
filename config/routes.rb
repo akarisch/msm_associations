@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   # CREATE
   get "/movies/new", :controller => "movies", :action => "new"
   post "/create_movie", :controller => "movies", :action => "create"
+  get "/create_movie", :controller => "movies", :action => "create"
+
 
   # READ
   get "/movies", :controller => "movies", :action => "index"
@@ -69,5 +71,5 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  
+
 end
